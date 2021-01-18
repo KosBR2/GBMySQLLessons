@@ -12,33 +12,33 @@ WITH users_null (user_id) AS ( SELECT id FROM vk.users AS t1 LEFT JOIN vk.users_
    )
 
 -- profiles ---------------------------------------------------------
-ALTER TABLE vk.profiles ADD CONSTRAINT profiles_user_id_fk          FOREIGN KEY (user_id)    REFERENCES vk.users(id)         ON DELETE CASCADE;
-ALTER TABLE vk.profiles ADD CONSTRAINT profiles_photo_id_fk         FOREIGN KEY (photo_id)   REFERENCES vk.media(id)         ON DELETE SET NULL;
-ALTER TABLE vk.profiles ADD CONSTRAINT profiles_user_statuses_id_fk FOREIGN KEY (status_id)  REFERENCES vk.user_statuses(id) ON DELETE SET NULL;
-ALTER TABLE vk.profiles ADD CONSTRAINT profiles_countries_id_fk     FOREIGN KEY (country_id) REFERENCES vk.countries(id)     ON DELETE SET NULL;
+ALTER TABLE vk.profiles ADD CONSTRAINT profiles_user_id_fk          FOREIGN KEY (user_id)    REFERENCES vk.users(id)         ON DELETE CASCADE  ON UPDATE CASCADE;
+ALTER TABLE vk.profiles ADD CONSTRAINT profiles_photo_id_fk         FOREIGN KEY (photo_id)   REFERENCES vk.media(id)         ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE vk.profiles ADD CONSTRAINT profiles_user_statuses_id_fk FOREIGN KEY (status_id)  REFERENCES vk.user_statuses(id) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE vk.profiles ADD CONSTRAINT profiles_countries_id_fk     FOREIGN KEY (country_id) REFERENCES vk.countries(id)     ON DELETE SET NULL ON UPDATE CASCADE;
 -- users_media ------------------------------------------------------
-ALTER TABLE vk.users_media ADD CONSTRAINT users_media_media_id_fk FOREIGN KEY (media_id) REFERENCES vk.media(id);
-ALTER TABLE vk.users_media ADD CONSTRAINT users_media_users_id_fk FOREIGN KEY (user_id)  REFERENCES vk.users(id) ON DELETE CASCADE;
+ALTER TABLE vk.users_media ADD CONSTRAINT users_media_media_id_fk FOREIGN KEY (media_id) REFERENCES vk.media(id) ON UPDATE CASCADE;
+ALTER TABLE vk.users_media ADD CONSTRAINT users_media_users_id_fk FOREIGN KEY (user_id)  REFERENCES vk.users(id) ON DELETE CASCADE ON UPDATE CASCADE;
 -- messages ---------------------------------------------------------
-ALTER TABLE vk.messages ADD CONSTRAINT messages_from_users_id_fk FOREIGN KEY (from_user_id) REFERENCES vk.users(id) ON DELETE CASCADE;
-ALTER TABLE vk.messages ADD CONSTRAINT messages_to_users_id_fk   FOREIGN KEY (to_user_id)   REFERENCES vk.users(id);  
+ALTER TABLE vk.messages ADD CONSTRAINT messages_from_users_id_fk FOREIGN KEY (from_user_id) REFERENCES vk.users(id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE vk.messages ADD CONSTRAINT messages_to_users_id_fk   FOREIGN KEY (to_user_id)   REFERENCES vk.users(id) ON UPDATE CASCADE;
 -- media ------------------------------------------------------------
-ALTER TABLE vk.media ADD CONSTRAINT media_media_type_id_fk FOREIGN KEY (media_type_id) REFERENCES vk.media_types(id);
+ALTER TABLE vk.media ADD CONSTRAINT media_media_type_id_fk FOREIGN KEY (media_type_id) REFERENCES vk.media_types(id) ON UPDATE CASCADE;
 -- friendship -------------------------------------------------------
-ALTER TABLE vk.friendship ADD CONSTRAINT friendship_friendship_statuses_id_fk FOREIGN KEY (status_id) REFERENCES vk.friendship_statuses(id);
-ALTER TABLE vk.friendship ADD CONSTRAINT friendship_users_id_fk               FOREIGN KEY (user_id)   REFERENCES vk.users(id)               ON DELETE CASCADE;
-ALTER TABLE vk.friendship ADD CONSTRAINT friendship_users_friend_id_fk        FOREIGN KEY (friend_id) REFERENCES vk.users(id);
+ALTER TABLE vk.friendship ADD CONSTRAINT friendship_friendship_statuses_id_fk FOREIGN KEY (status_id) REFERENCES vk.friendship_statuses(id) ON UPDATE CASCADE;
+ALTER TABLE vk.friendship ADD CONSTRAINT friendship_users_id_fk               FOREIGN KEY (user_id)   REFERENCES vk.users(id)               ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE vk.friendship ADD CONSTRAINT friendship_users_friend_id_fk        FOREIGN KEY (friend_id) REFERENCES vk.users(id)               ON UPDATE CASCADE;
 -- communities_users ------------------------------------------------
-ALTER TABLE vk.communities_users ADD CONSTRAINT communities_users_users_id_fk       FOREIGN KEY (user_id)      REFERENCES vk.users(id)       ON DELETE CASCADE;
-ALTER TABLE vk.communities_users ADD CONSTRAINT communities_users_communities_id_fk FOREIGN KEY (community_id) REFERENCES vk.communities(id) ON DELETE CASCADE;
+ALTER TABLE vk.communities_users ADD CONSTRAINT communities_users_users_id_fk       FOREIGN KEY (user_id)      REFERENCES vk.users(id)       ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE vk.communities_users ADD CONSTRAINT communities_users_communities_id_fk FOREIGN KEY (community_id) REFERENCES vk.communities(id) ON DELETE CASCADE ON UPDATE CASCADE;
 -- likes ------------------------------------------------------------
-ALTER TABLE vk.likes ADD CONSTRAINT likes_users_id_fk        FOREIGN KEY (user_id)        REFERENCES vk.users(id)        ON DELETE CASCADE;
-ALTER TABLE vk.likes ADD CONSTRAINT likes_users_target_id_fk FOREIGN KEY (target_id)      REFERENCES vk.users(id);
-ALTER TABLE vk.likes ADD CONSTRAINT likes_target_types_id_fk FOREIGN KEY (target_type_id) REFERENCES vk.target_types(id);
+ALTER TABLE vk.likes ADD CONSTRAINT likes_users_id_fk        FOREIGN KEY (user_id)        REFERENCES vk.users(id)        ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE vk.likes ADD CONSTRAINT likes_users_target_id_fk FOREIGN KEY (target_id)      REFERENCES vk.users(id)        ON UPDATE CASCADE;
+ALTER TABLE vk.likes ADD CONSTRAINT likes_target_types_id_fk FOREIGN KEY (target_type_id) REFERENCES vk.target_types(id) ON UPDATE CASCADE;
 -- posts ------------------------------------------------------------
-ALTER TABLE vk.posts ADD CONSTRAINT posts_community_id_fk FOREIGN KEY (community_id) REFERENCES vk.communities(id) ON DELETE CASCADE;
-ALTER TABLE vk.posts ADD CONSTRAINT posts_users_id_fk     FOREIGN KEY (user_id)      REFERENCES vk.users(id)       ON DELETE CASCADE;
-ALTER TABLE vk.posts ADD CONSTRAINT posts_media_id_fk     FOREIGN KEY (media_id)     REFERENCES vk.media(id)       ON DELETE SET NULL;
+ALTER TABLE vk.posts ADD CONSTRAINT posts_community_id_fk FOREIGN KEY (community_id) REFERENCES vk.communities(id) ON DELETE CASCADE  ON UPDATE CASCADE;
+ALTER TABLE vk.posts ADD CONSTRAINT posts_users_id_fk     FOREIGN KEY (user_id)      REFERENCES vk.users(id)       ON DELETE CASCADE  ON UPDATE CASCADE;
+ALTER TABLE vk.posts ADD CONSTRAINT posts_media_id_fk     FOREIGN KEY (media_id)     REFERENCES vk.media(id)       ON DELETE SET NULL ON UPDATE CASCADE;
 ---------------------------------------------------------------------
 
 -- 3. Определить кто больше поставил лайков (всего) - мужчины или женщины?
